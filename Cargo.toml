@@ -1,0 +1,13 @@
+[package]
+name = "telegram_chatbot_backend"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+axum = "0.8.1"
+tokio = { version = "1", features = ["full"] }
+serde = { version = "1.0", features = ["derive"] }
+sqlx = { version = "0.8.3", features = ["postgres", "runtime-tokio-native-tls"] }
+reqwest = "0.12.12"
+dotenv = "0.15"
+tonic = "0.12.3" # For TON integration
