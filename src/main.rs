@@ -15,7 +15,7 @@ async fn main() {
     let app = routes::create_routes();
     
     // Define the server's address (localhost:3000)
-    let addr = SocketAddr::from(([127, 0, 0, 1], 3000));
+    let addr = SocketAddr::from(([0, 0, 0, 0], 3000));
     
     // Print a message to indicate the server is running
     println!("Server running on http://{}", addr);
