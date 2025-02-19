@@ -1,4 +1,3 @@
-//src/models.rs
 use serde::{Deserialize, Serialize}; // Serde for JSON serialization/deserialization
 
 // Model for incoming messages from the chatbot
@@ -13,4 +12,17 @@ pub struct IncomingMessage {
 pub struct ApiResponse {
     pub status: String, // Status of the operation (e.g., "success" or "error")
     pub message: String, // Detailed message about the result
+}
+
+// Model for Telegram initData verification
+#[derive(Deserialize)]
+pub struct AuthRequest {
+    pub initData: String,
+}
+
+// Model for subscription requests
+#[derive(Deserialize)]
+pub struct SubscriptionRequest {
+    pub user_id: String,
+    pub payment_method: String,
 }

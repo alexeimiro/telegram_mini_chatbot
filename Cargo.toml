@@ -11,3 +11,8 @@ sqlx = { version = "0.8.3", features = ["postgres", "runtime-tokio-native-tls"] 
 reqwest = "0.12.12"
 dotenv = "0.15"
 tonic = "0.12.3" # For TON integration
+sha2 = "0.10" # For hashing
+hex = "0.4"   # For hexadecimal encoding
+lazy_static = "1.4" # For global static variables
+url = "2.4"   # For parsing URLs
+serde_json = "1.0" # For JSON serialization/deserialization

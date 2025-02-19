@@ -2017,11 +2017,16 @@ version = "0.1.0"
 dependencies = [
  "axum 0.8.1",
  "dotenv",
+ "hex",
+ "lazy_static",
  "reqwest",
  "serde",
+ "serde_json",
+ "sha2",
  "sqlx",
  "tokio",
  "tonic",
+ "url",
 ]
 
 [[package]]

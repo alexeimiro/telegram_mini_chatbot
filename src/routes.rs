@@ -1,19 +1,14 @@
-//src/routes.rs
-use axum::{Router, routing::post}; // Axum's Router and routing utilities
-use crate::handlers; // Import handlers for HTTP requests
-use reqwest::Client; // HTTP client for making external API calls
+use axum::{Router, routing::{post, get}};
+use crate::handlers;
+use reqwest::Client;
 
-// Function to create and return the application routes
 pub fn create_routes() -> Router {
-    // Initialize an HTTP client (shared across the application)
     let http_client = Client::new();
 
-    // Define the application routes
     Router::new()
-        // Root route ("/") - Returns a welcome message
-        .route("/", axum::routing::get(|| async { "Welcome to the Chatbot Backend!" }))
-        // "/message" route - Handles POST requests for incoming messages
+        .route("/", get(|| async { "Welcome to the Chatbot Backend!" }))
+        .route("/auth/telegram", post(handlers::auth_telegram))
         .route("/message", post(handlers::receive_message))
-        // Attach the HTTP client as shared state for all routes
+        .route("/subscribe", post(handlers::subscribe_user))
         .with_state(http_client)
 }
