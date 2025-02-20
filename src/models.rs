@@ -17,7 +17,7 @@ pub struct ApiResponse {
 // Model for Telegram initData verification
 #[derive(Deserialize)]
 pub struct AuthRequest {
-    pub initData: String,
+    pub init_data: String,
 }
 
 // Model for subscription requests

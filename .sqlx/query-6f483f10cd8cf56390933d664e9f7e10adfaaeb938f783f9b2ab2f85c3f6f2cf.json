@@ -1,0 +1,14 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "UPDATE users SET usage_count = usage_count + 1 WHERE user_id = $1",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Int8"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "6f483f10cd8cf56390933d664e9f7e10adfaaeb938f783f9b2ab2f85c3f6f2cf"
+}

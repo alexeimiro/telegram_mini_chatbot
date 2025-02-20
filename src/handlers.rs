@@ -13,9 +13,9 @@ pub async fn auth_telegram(
     State(_client): State<Client>,
     Json(payload): Json<AuthRequest>,
 ) -> Json<ApiResponse> {
-    match verify_init_data(&payload.initData) {
+    match verify_init_data(&payload.init_data) {
         Ok(true) => {
-            let user_data = url::form_urlencoded::parse(payload.initData.as_bytes())
+            let user_data = url::form_urlencoded::parse(payload.init_data.as_bytes())
                 .filter(|(key, _)| key == "user")
                 .map(|(_, value)| value)
                 .next()
