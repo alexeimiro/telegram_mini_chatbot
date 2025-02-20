@@ -10,7 +10,7 @@ use hex;
 
 // Handler for the "/auth/telegram" route
 pub async fn auth_telegram(
-    State(client): State<Client>,
+    State(_client): State<Client>,
     Json(payload): Json<AuthRequest>,
 ) -> Json<ApiResponse> {
     match verify_init_data(&payload.initData) {
@@ -22,7 +22,7 @@ pub async fn auth_telegram(
                 .and_then(|user| serde_json::from_str::<serde_json::Value>(&user).ok());
 
             if let Some(user) = user_data {
-                let user_id = user["id"].as_u64().unwrap_or(0);
+                let user_id = user["id"].as_i64().unwrap_or(0);
                 let username = user["username"].as_str().unwrap_or("");
 
                 services::handle_user_login(user_id, username).await;
@@ -53,9 +53,9 @@ pub async fn receive_message(
     let user_id = payload.user_id.parse::<u64>().unwrap_or(0);
 
     // Check if the user has exceeded the free trial limit
-    let usage_count = services::get_user_usage(user_id).await;
+    let usage_count = services::get_user_usage(user_id.try_into().unwrap()).await;
 
-    if usage_count >= 10 && !services::is_user_subscribed(user_id).await {
+    if usage_count >= 10 && !services::is_user_subscribed(user_id.try_into().unwrap()).await {
         return Json(ApiResponse {
             status: "error".to_string(),
             message: "Free trial limit reached. Please subscribe to continue.".to_string(),
@@ -65,7 +65,7 @@ pub async fn receive_message(
     // Forward message to Telegram
     match services::forward_message_to_telegram(&client, payload).await {
         Ok(_) => {
-            services::increment_user_usage(user_id).await;
+            services::increment_user_usage(user_id.try_into().unwrap()).await;
             Json(ApiResponse {
                 status: "success".to_string(),
                 message: "Message forwarded to Telegram".to_string(),
@@ -84,7 +84,7 @@ pub async fn subscribe_user(
 ) -> Json<ApiResponse> {
     let user_id = payload.user_id.parse::<u64>().unwrap_or(0);
 
-    match services::process_payment(user_id, &payload.payment_method).await {
+    match services::process_payment(user_id.try_into().expect("Failed to convert user_id"), &payload.payment_method).await {
         Ok(_) => Json(ApiResponse {
             status: "success".to_string(),
             message: "Subscription successful".to_string(),
