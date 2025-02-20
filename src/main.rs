@@ -6,7 +6,7 @@ mod config;       // Handles environment variables and configuration
 
 use std::net::SocketAddr; // For specifying the server's address
 use log::info;
-use tower_http::cors::{CorsLayer, AllowOrigin}; // Import CORS middleware
+use tower_http::cors::{CorsLayer, AllowOrigin, Any}; // Import CORS middleware
 use axum::Router;
 
 #[tokio::main] // Marks the main function as asynchronous
@@ -33,7 +33,7 @@ async fn main() {
         .allow_headers(Any); // Allow all headers
 
     // Wrap the router with the CORS middleware
-    let app = Router::new().nest("/", app).layer(cors);
+    let app = Router::new().merge(app).layer(cors);
 
     // Specify the server's address
     let addr = SocketAddr::from(([0, 0, 0, 0], 3000));
